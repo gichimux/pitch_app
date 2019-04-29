@@ -1,10 +1,9 @@
 from flask import render_template, request, redirect, url_for, abort  
 from . import main  
-from .forms import CommentsForm, UpdateProfile, PitchForm, UpvoteForm
-from ..models import Comment, Pitch, User 
+from ..models import Comment, Pitch, User, Category 
 from flask_login import login_required, current_user
 from .. import db,photos
-
+from .forms import CommentsForm, UpdateProfile, PitchForm, UpvoteForm
 import markdown2
 
 
@@ -14,57 +13,56 @@ def index():
     '''
     View root page function that returns the index page and its data
     '''
-    title = 'Home - Welcome to The best Pitching Website Online'
+    title = 'Home - Pitch your cause and take your first step in changing the world!'
+    search_pitch= request.args.get('pitch_query')
+    pitch= Pitch.get_all_pitches()  
 
-    search_pitch = request.args.get('pitch_query')
-    pitches= Pitch.get_all_pitches()  
-
-    return render_template('index.html', title = title, pitches= pitches)
+    return render_template('index.html', title = title, pitch= pitch)
 
 #this section consist of the category root functions
 #  end of category root functions
 
 
-@main.route('/environment/pitches/')
+@main.route('/environment/pitch/')
 def environment():
     '''
     View root page function that returns the index page and its data
     '''
-    pitches= Pitch.get_all_pitches()
+    pitch= Pitch.get_all_pitches()
     title = 'Home - pitch your cause, and get funded'  
-    return render_template('environmental.html', title = title, pitches= pitches )
+    return render_template('environmental.html', title = title, pitch= pitch )
 
-@main.route('/education/pitches/')
+@main.route('/education/pitch/')
 def education():
     '''
     View root page function that returns the index page and its data
     '''
     title = 'Education causes'
 
-    pitches= Pitch.get_all_pitches()
+    pitch= Pitch.get_all_pitches()
 
-    return render_template('education.html', title = title, pitches= pitches )
+    return render_template('education.html', title = title, pitch= pitch )
 
 
-@main.route('/health/pitches/')
+@main.route('/health/pitch/')
 def health():
     '''
     View root page function that returns the index page and its data
     '''
     title = 'health and wellness causes'
-    pitches= Pitch.get_all_pitches()
-    return render_template('health.html', title = title, pitches= pitches )
+    pitch= Pitch.get_all_pitches()
+    return render_template('health.html', title = title, pitch= pitch )
 
-@main.route('/social-movements/pitches/')
-def pick_up_line():
+@main.route('/social-movements/pitch/')
+def social_movement():
     '''
     View root page function that returns the index page and its data
     '''
     title = 'Start a social movement'
 
-    pitches= Pitch.get_all_pitches()
+    pitch= Pitch.get_all_pitches()
 
-    return render_template('social-movements.html', title = title, pitches= pitches )
+    return render_template('social-movements.html', title = title, pitch= pitch )
  
 #  end of category root functions
 
@@ -85,16 +83,16 @@ def search(pitch_name):
     '''
     View function to display the search results
     '''
-    searched_pitches = search_pitch(pitch_name)
+    searched_pitches =search_pitch(pitch_name)
     title = f'search results for {pitch_name}'
 
-    return render_template('search.html',pitches = searched_pitches)
+    return render_template('search.html',pitch = searched_pitches)
 
 @main.route('/pitch/new/', methods = ["GET","POST"])
 @login_required
 def new_pitch():
     '''
-    Function that creates new pitches
+    Function that creates new pitch
     '''
     form = PitchForm()
 
@@ -103,8 +101,7 @@ def new_pitch():
         abort( 404 )
 
     if form.validate_on_submit():
-        pitch= form.conten    title = 'Pick Up Lines'
-t.data
+        pitch= form.content.data    
         category_id = form.category_id.data
         new_pitch= Pitch(pitch= pitch, category_id= category_id)
 
@@ -116,15 +113,15 @@ t.data
 @main.route('/category/<int:id>')
 def category(id):
     '''
-    function that returns pitches based on the entered category id
+    function that returns pitch based on the entered category id
     '''
-    category = PitchCategory.query.get(id)
+    category = Category.query.get(id)
 
     if category is None:
         abort(404)
 
-    pitches_in_category = Pitches.get_pitch(id)
-    return render_template('category.html' ,category= category, pitches= pitches_in_category)
+    pitches_in_category = Pitch.get_pitch(id)
+    return render_template('category.html' ,category= category, pitch= pitches_in_category)
 
 @main.route('/pitch/comments/new/<int:id>',methods = ["GET","POST"])
 @login_required
@@ -186,11 +183,5 @@ def profile(uname):
 
     return render_template("profile/profile.html", user = user)
 
-@main.route('/test/<int:id>')  
-def test(id):
-    '''
-    this is route for basic testing
-    '''
-    pitch =Pitch.query.filter_by(id=1).first()
-    return render_template('test.html',pitch= pitch)
+
 

@@ -1,0 +1,5 @@
+Hello {{user.username}}
+Welcome to cause
+you have taken your first step in your journey to change the world. 
+You can now start your own cause or find an interesting one to follow. 
+Adios!

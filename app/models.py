@@ -27,12 +27,12 @@ class User(UserMixin, db.Model):
 
     @classmethod
     def get_comments(cls,id):
-        reviews = Comment.query.filter_by(pitch_id=id).all()
+        comments = Comment.query.filter_by(pitch_id=id).all()
         return comments
 
     @property
     def password(self):
-        raise AttributeError('Permission Denied)
+        raise AttributeError('Permission Denied')
 
     @password.setter
     def password(self, password):
@@ -64,7 +64,7 @@ class Pitch(db.Model):
         db.session.add(self)
         db.session.commit()
     
-     @classmethod
+    @classmethod
     def get_pitches_by_category(cls,c_id):
         '''
         Function that queries the databse and returns pitches based on the
@@ -104,7 +104,6 @@ class Comment(db.Model):
     @classmethod
     def get_comments(cls,id):
         comments = Comment.query.filter_by(pitch_id=id).all()
-
         return comments
 
     @classmethod
@@ -117,7 +116,6 @@ class Category(db.Model):
     '''
     __tablename__ ='pitch_categories'
 
-
     id = db.Column(db.Integer, primary_key=True)
     name_of_category = db.Column(db.String(255))
     category_description = db.Column(db.String(255))
@@ -127,7 +125,7 @@ class Category(db.Model):
         '''
         This function fetches all the categories from the database
         '''
-        categories = PitchCategory.query.all()
+        categories = Category.query.all()
         return categories    
 
 class Role(db.Model):
