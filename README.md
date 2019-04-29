@@ -19,10 +19,10 @@ This is an application that allows users to submit their pitches for social caus
 #### User Stories
 
 
-> A users can see pitches that other people have posted
-> A user can vote on posted pitches with either a down or an up vote
-> A user can comment on different pitches and leave feedback
-> A user can submit a pitch in any category
+> A users can see pitches that other people have posted:
+> A user can vote on posted pitches with either a down or an up vote:
+> A user can comment on different pitches and leave feedback:
+> A user can submit a pitch in any category:
 > A user can submit to different categories
 
 
@@ -48,10 +48,10 @@ This is an application that allows users to submit their pitches for social caus
 # Technologies Used
 
 #### This project uses these technologies:
-> HTML5/CSS 
-> Bootstrap 
-> Python3.6
-> flask
+* HTML5/CSS 
+* Bootstrap 
+* Python3.6
+* flask
 
 
 # Support and bug reports
